@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm  # type: ignore
-from wtforms import StringField, PasswordField, SubmitField  # type: ignore
+from wtforms import StringField, PasswordField, SubmitField, EmailField  # type: ignore
 from wtforms.validators import DataRequired, URL, Email  # type: ignore
 from flask_ckeditor import CKEditorField  # type: ignore
+
+# import email_validator # type: ignore
 
 
 class CreatePostForm(FlaskForm):
@@ -14,13 +16,13 @@ class CreatePostForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
     name = StringField("Username", validators=[DataRequired()])
-    email = StringField("Email Address", validators=[DataRequired(), Email()])
+    email = EmailField("Email Address", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Register")
 
 
 class LoginForm(FlaskForm):
-    email = StringField("Email Address", validators=[DataRequired(), Email()])
+    email = EmailField("Email Address", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Login")
 
