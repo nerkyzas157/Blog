@@ -15,7 +15,7 @@ import smtplib
 from forms import CreatePostForm, CommentForm, LoginForm, RegisterForm
 
 
-config = dotenv_values(".env")
+config = dotenv_values("Day_71_Deploy_Web_App\Blog\instance\.env")
 SMTP_EMAIL = config["SMTP_EMAIL"]
 APP_PASSWORD = config["SMTP_APP_PASS"]
 
@@ -261,4 +261,4 @@ def send_email(name, email, phone, message):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
