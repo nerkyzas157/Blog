@@ -1,4 +1,4 @@
-from dotenv import dotenv_values  # type: ignore
+import os
 from datetime import datetime
 from flask import Flask, abort, render_template, redirect, url_for, flash, request  # type: ignore
 from flask_bootstrap import Bootstrap5  # type: ignore
@@ -15,14 +15,12 @@ import smtplib
 from forms import CreatePostForm, CommentForm, LoginForm, RegisterForm
 
 
-config = dotenv_values("Day_71_Deploy_Web_App\Blog\instance\.env")
-SMTP_EMAIL = config["SMTP_EMAIL"]
-APP_PASSWORD = config["SMTP_APP_PASS"]
+SMTP_EMAIL = os.environ.get("SMTP_EMAIL")
+APP_PASSWORD = os.environ.get("SMTP_APP_PASS")
 
 
-SECRET_KEY = config["SECRET_KEY"]
 app = Flask(__name__)
-app.config["SECRET_KEY"] = SECRET_KEY
+app.config["SECRET_KEY"] = os.environ.get("FLASK_KEY")
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
@@ -64,7 +62,7 @@ class Base(DeclarativeBase):
     pass
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = config["DB_PATH"]
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URI", "sqlite:///posts.db")
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
