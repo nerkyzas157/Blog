@@ -11,18 +11,16 @@ from sqlalchemy import Integer, String, Text, ForeignKey  # type: ignore
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash  # type: ignore
 import smtplib
-import os
 
 from forms import CreatePostForm, CommentForm, LoginForm, RegisterForm
 
 
-# Set your constant variables for email and password right here:
 config = dotenv_values(".env")
 SMTP_EMAIL = config["SMTP_EMAIL"]
 APP_PASSWORD = config["SMTP_APP_PASS"]
 
 
-SECRET_KEY = os.urandom(24)
+SECRET_KEY = config["SECRET_KEY"]
 app = Flask(__name__)
 app.config["SECRET_KEY"] = SECRET_KEY
 ckeditor = CKEditor(app)
@@ -66,9 +64,7 @@ class Base(DeclarativeBase):
     pass
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "sqlite:///C:/Users/Neriukas/Desktop/Code/100_days_py/Day_69_Blog_FINAL/Blog/instance/posts.db"
-)
+app.config["SQLALCHEMY_DATABASE_URI"] = config["DB_PATH"]
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
